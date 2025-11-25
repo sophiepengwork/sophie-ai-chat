@@ -1,135 +1,140 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Sophie.AI — Digital AI Extension of Sophie Peng</title>
+    <title>Sophie.AI — Personal AI Companion</title>
 
     <!-- Google Font -->
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
 
     <style>
         body {
             margin: 0;
+            padding: 0;
             font-family: "Inter", sans-serif;
-            background: #faf7f5;
+            background-color: #F9F9F6; /* Mist White */
             color: #333;
-            display: flex;
             height: 100vh;
+            display: flex;
+        }
+
+        .sidebar {
+            width: 32%;
+            min-width: 280px;
+            padding: 40px;
+            background: #F8DCDC; /* Lotus Pink (柔膚粉) */
+            border-right: 1px solid #EBDADA;
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-start;
+            gap: 20px;
+        }
+
+        .sidebar h1 {
+            font-size: 34px;
+            font-weight: 600;
+            margin: 0;
+            color: #333;
+        }
+
+        .sidebar .tagline {
+            font-size: 16px;
+            line-height: 1.6;
+            color: #444;
+        }
+
+        .profile-card {
+            background: #FFFFFFEE;
+            border-radius: 16px;
+            padding: 20px;
+            border: 1px solid #EAD6D6;
+        }
+
+        .profile-card h3 {
+            margin: 0 0 6px 0;
+            font-size: 18px;
+            font-weight: 600;
+            color: #333;
+        }
+
+        .profile-card p {
+            margin: 0;
+            font-size: 14px;
+            color: #555;
+            line-height: 1.6;
+        }
+
+        .chat-container {
+            flex-grow: 1;
+            background: #CBD7C2; /* Lotus Leaf Green */
+            display: flex;
             overflow: hidden;
         }
 
-        /* LEFT PANEL */
-        .sidebar {
-            width: 38%;
-            background: white;
-            padding: 50px;
-            box-shadow: 4px 0 20px rgba(0, 0, 0, 0.05);
-            overflow-y: auto;
+        flowise-fullchatbot {
+            width: 100%;
+            height: 100%;
         }
 
-        .title {
-            font-size: 42px;
-            font-weight: 700;
-            margin-bottom: 20px;
-        }
-
-        .highlight {
-            color: #c89b5f;
-            font-weight: 700;
-        }
-
-        .section-title {
-            margin-top: 40px;
-            font-weight: 600;
-            font-size: 20px;
-        }
-
-        .bio-card {
-            background: #f6f3f1;
-            padding: 20px;
-            border-radius: 12px;
-            margin-top: 15px;
-        }
-
-        .bio-card h3 {
-            margin: 0;
-            font-size: 18px;
-            font-weight: 600;
-        }
-
-        /* RIGHT CHAT PANEL */
-        .chat-panel {
-            flex: 1;
-            background: #ffffff;
-            border-left: 1px solid #eee;
-            display: flex;
-            flex-direction: column;
-        }
-
-        .chat-frame {
-            flex: 1;
-            border: none;
-        }
-
-        /* MOBILE */
+        /* Mobile */
         @media (max-width: 900px) {
             body {
                 flex-direction: column;
             }
-
             .sidebar {
                 width: 100%;
-                height: 45vh;
+                border-right: none;
+                border-bottom: 1px solid #EBDADA;
             }
-
-            .chat-panel {
-                height: 55vh;
+            .chat-container {
+                height: calc(100vh - 350px);
             }
         }
     </style>
 </head>
 
 <body>
-    <!-- LEFT COLUMN -->
+
+    <!-- 左側個人介紹區 -->
     <div class="sidebar">
-        <div class="title">✨ Sophie.<span class="highlight">AI</span></div>
-        <p>
-            Your digital AI extension — blending UX strategy, semantic retrieval,
-            and vector-powered personalization into one intelligent companion.
+        <h1>✨ Sophie.AI</h1>
+        <p class="tagline">
+            Your personal AI extension — blending UX strategy, semantic retrieval, and 
+            vector-powered personalization into one intelligent companion.
         </p>
 
-        <div class="section-title">👩🏻 About Sophie</div>
-        <div class="bio-card">
-            <h3>Sophie Peng</h3>
-            <p>Product Manager · UX Strategy · AI Personalization</p>
-            <p>Specializes in semantic retrieval, data-driven product execution, and AI-powered user experience design.</p>
+        <div class="profile-card">
+            <h3>About Sophie Peng (彭奕瑄)</h3>
+            <p>Email: sophieee0306@gmail.com</p>
+            <p>Product Manager · UX Strategy · Data + AI Personalization</p>
         </div>
 
-        <div class="section-title">💡 What I Can Help With</div>
-        <ul>
-            <li>Summaries about Sophie’s background</li>
-            <li>Explain Sophie’s work experience & projects</li>
-            <li>Q&A about product thinking & UX strategy</li>
-            <li>Career storytelling and interview guidance</li>
-        </ul>
-
-        <div class="section-title">📎 Try asking:</div>
-        <ul>
-            <li>“Tell me Sophie’s experience in MarTech UX research”</li>
-            <li>“What projects has Sophie delivered?”</li>
-            <li>“Summarize Sophie’s PM background in 3 points”</li>
-        </ul>
+        <div class="profile-card">
+            <h3>Ask Sophie.AI</h3>
+            <p>
+                🔹 My work experience  
+                🔹 Product thinking  
+                🔹 UX strategy & research  
+                🔹 AI personalization projects  
+                🔹 Anything about me 💛  
+            </p>
+        </div>
     </div>
 
-    <!-- RIGHT CHAT PANEL -->
-    <div class="chat-panel">
-        <!-- Flowise embedded CHAT -->
-        <iframe class="chat-frame"
-            src="https://cloud.flowiseai.com/chatbot/a24ebb8d-d82a-46df-b0dc-3ba2886ca12a"></iframe>
+    <!-- 右側聊天視窗 -->
+    <div class="chat-container">
+        <flowise-fullchatbot></flowise-fullchatbot>
     </div>
+
+    <!-- Flowise Fullpage Embed -->
+    <script type="module">
+        import Chatbot from "https://cdn.jsdelivr.net/npm/flowise-embed/dist/web.js"
+        Chatbot.initFull({
+            chatflowid: "a24ebb8d-d82a-46df-b0dc-3ba2886ca12a",
+            apiHost: "https://cloud.flowiseai.com",
+        })
+    </script>
 
 </body>
 </html>
-
