@@ -2,105 +2,134 @@
 <html lang="en">
 
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Sophie.AI — Personal AI Assistant</title>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Sophie.AI — Digital AI Extension of Sophie Peng</title>
 
-  <!-- Google Fonts (優雅且帶透明感的字體) -->
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
+    <!-- Google Font -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet" />
 
-  <style>
-    body {
-      margin: 0;
-      padding: 0;
-      font-family: "Inter", sans-serif;
-      background: linear-gradient(135deg, #f7f4ef 0%, #ece8e3 100%);
-      color: #333;
-      height: 100vh;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-    }
+    <style>
+        body {
+            margin: 0;
+            font-family: "Inter", sans-serif;
+            background: #faf7f5;
+            color: #333;
+            display: flex;
+            height: 100vh;
+            overflow: hidden;
+        }
 
-    .container {
-      text-align: center;
-      padding: 40px;
-      backdrop-filter: blur(12px);
-      background: rgba(255, 255, 255, 0.4);
-      border-radius: 24px;
-      box-shadow: 0 6px 25px rgba(0, 0, 0, 0.08);
-      max-width: 600px;
-      animation: fadeIn 1.2s ease-out;
-    }
+        /* LEFT PANEL */
+        .sidebar {
+            width: 38%;
+            background: white;
+            padding: 50px;
+            box-shadow: 4px 0 20px rgba(0, 0, 0, 0.05);
+            overflow-y: auto;
+        }
 
-    h1 {
-      font-size: 2.4rem;
-      font-weight: 600;
-      margin-bottom: 12px;
-      color: #1a1a1a;
-    }
+        .title {
+            font-size: 42px;
+            font-weight: 700;
+            margin-bottom: 20px;
+        }
 
-    p {
-      font-size: 1.05rem;
-      line-height: 1.6;
-      opacity: 0.75;
-      margin-bottom: 24px;
-    }
+        .highlight {
+            color: #c89b5f;
+            font-weight: 700;
+        }
 
-    .tag {
-      display: inline-block;
-      padding: 8px 16px;
-      font-size: 0.9rem;
-      background: rgba(255, 255, 255, 0.5);
-      border-radius: 20px;
-      margin-top: 10px;
-      border: 1px solid rgba(0, 0, 0, 0.05);
-    }
+        .section-title {
+            margin-top: 40px;
+            font-weight: 600;
+            font-size: 20px;
+        }
 
-    @keyframes fadeIn {
-      from {
-        opacity: 0;
-        transform: translateY(20px);
-      }
+        .bio-card {
+            background: #f6f3f1;
+            padding: 20px;
+            border-radius: 12px;
+            margin-top: 15px;
+        }
 
-      to {
-        opacity: 1;
-        transform: translateY(0);
-      }
-    }
+        .bio-card h3 {
+            margin: 0;
+            font-size: 18px;
+            font-weight: 600;
+        }
 
-    footer {
-      margin-top: 40px;
-      font-size: 0.8rem;
-      opacity: 0.6;
-    }
-  </style>
+        /* RIGHT CHAT PANEL */
+        .chat-panel {
+            flex: 1;
+            background: #ffffff;
+            border-left: 1px solid #eee;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .chat-frame {
+            flex: 1;
+            border: none;
+        }
+
+        /* MOBILE */
+        @media (max-width: 900px) {
+            body {
+                flex-direction: column;
+            }
+
+            .sidebar {
+                width: 100%;
+                height: 45vh;
+            }
+
+            .chat-panel {
+                height: 55vh;
+            }
+        }
+    </style>
 </head>
 
 <body>
+    <!-- LEFT COLUMN -->
+    <div class="sidebar">
+        <div class="title">✨ Sophie.<span class="highlight">AI</span></div>
+        <p>
+            Your digital AI extension — blending UX strategy, semantic retrieval,
+            and vector-powered personalization into one intelligent companion.
+        </p>
 
-  <div class="container">
-    <h1>✨ Sophie.AI</h1>
-    <p>
-      Your personal AI extension — blending UX strategy, semantic retrieval,<br />
-      and vector-powered personalization into one intelligent companion.
-    </p>
+        <div class="section-title">👩🏻 About Sophie</div>
+        <div class="bio-card">
+            <h3>Sophie Peng</h3>
+            <p>Product Manager · UX Strategy · AI Personalization</p>
+            <p>Specializes in semantic retrieval, data-driven product execution, and AI-powered user experience design.</p>
+        </div>
 
-    <div class="tag">Ask me anything about Sophie 💬</div>
-  </div>
+        <div class="section-title">💡 What I Can Help With</div>
+        <ul>
+            <li>Summaries about Sophie’s background</li>
+            <li>Explain Sophie’s work experience & projects</li>
+            <li>Q&A about product thinking & UX strategy</li>
+            <li>Career storytelling and interview guidance</li>
+        </ul>
 
-  <footer>© 2025 Sophie Peng — Powered by Flowise + GitHub Pages</footer>
+        <div class="section-title">📎 Try asking:</div>
+        <ul>
+            <li>“Tell me Sophie’s experience in MarTech UX research”</li>
+            <li>“What projects has Sophie delivered?”</li>
+            <li>“Summarize Sophie’s PM background in 3 points”</li>
+        </ul>
+    </div>
 
-  <!-- Flowise Chatbot Embed -->
-  <script type="module">
-    import Chatbot from "https://cdn.jsdelivr.net/npm/flowise-embed/dist/web.js";
-    Chatbot.init({
-      chatflowid: "a24ebb8d-d82a-46df-b0dc-3ba2886ca12a",
-      apiHost: "https://cloud.flowiseai.com",
-    });
-  </script>
+    <!-- RIGHT CHAT PANEL -->
+    <div class="chat-panel">
+        <!-- Flowise embedded CHAT -->
+        <iframe class="chat-frame"
+            src="https://cloud.flowiseai.com/chatbot/a24ebb8d-d82a-46df-b0dc-3ba2886ca12a"></iframe>
+    </div>
 
 </body>
-
 </html>
+
