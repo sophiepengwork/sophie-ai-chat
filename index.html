@@ -13,61 +13,65 @@
             margin: 0;
             padding: 0;
             font-family: "Inter", sans-serif;
-            background-color: #F9F9F6; /* Mist White */
-            color: #333;
+            background-color: #F9F9F6; /* 全頁珍珠白 */
+            color: #111; /* 黑字 */
             height: 100vh;
             display: flex;
         }
 
+        /* 左側欄：全白、細邊線、透明感 */
         .sidebar {
             width: 32%;
             min-width: 280px;
             padding: 40px;
-            background: #F8DCDC; /* Lotus Pink (柔膚粉) */
-            border-right: 1px solid #EBDADA;
+            background: #FFFFFF; /* 全白 */
+            border-right: 1px solid #EAEAEA; /* 極淺灰邊線 */
             display: flex;
             flex-direction: column;
             justify-content: flex-start;
-            gap: 20px;
+            gap: 24px;
         }
 
         .sidebar h1 {
             font-size: 34px;
             font-weight: 600;
             margin: 0;
-            color: #333;
+            color: #111;
         }
 
         .sidebar .tagline {
-            font-size: 16px;
+            font-size: 15px;
             line-height: 1.6;
-            color: #444;
+            color: #222;
         }
 
+        /* 卡片：玻璃感全白 */
         .profile-card {
-            background: #FFFFFFEE;
-            border-radius: 16px;
+            background: #FFFFFF; 
+            border-radius: 14px;
             padding: 20px;
-            border: 1px solid #EAD6D6;
+            border: 1px solid #EEE;
+            box-shadow: 0px 1px 3px rgba(0,0,0,0.03);
         }
 
         .profile-card h3 {
             margin: 0 0 6px 0;
-            font-size: 18px;
+            font-size: 16px;
             font-weight: 600;
-            color: #333;
+            color: #111;
         }
 
         .profile-card p {
             margin: 0;
             font-size: 14px;
-            color: #555;
+            color: #333;
             line-height: 1.6;
         }
 
+        /* 右側聊天區，同樣全白 */
         .chat-container {
             flex-grow: 1;
-            background: #CBD7C2; /* Lotus Leaf Green */
+            background: #FFFFFF;
             display: flex;
             overflow: hidden;
         }
@@ -77,7 +81,7 @@
             height: 100%;
         }
 
-        /* Mobile */
+        /* Mobile Responsive */
         @media (max-width: 900px) {
             body {
                 flex-direction: column;
@@ -85,10 +89,10 @@
             .sidebar {
                 width: 100%;
                 border-right: none;
-                border-bottom: 1px solid #EBDADA;
+                border-bottom: 1px solid #EAEAEA;
             }
             .chat-container {
-                height: calc(100vh - 350px);
+                height: calc(100vh - 360px);
             }
         }
     </style>
@@ -96,12 +100,12 @@
 
 <body>
 
-    <!-- 左側個人介紹區 -->
+    <!-- 左側個人介紹 -->
     <div class="sidebar">
         <h1>✨ Sophie.AI</h1>
         <p class="tagline">
-            Your personal AI extension — blending UX strategy, semantic retrieval, and 
-            vector-powered personalization into one intelligent companion.
+            Your personal AI extension — blending UX strategy, semantic 
+            retrieval, and vector-powered personalization into one intelligent companion.
         </p>
 
         <div class="profile-card">
@@ -111,13 +115,13 @@
         </div>
 
         <div class="profile-card">
-            <h3>Ask Sophie.AI</h3>
+            <h3>Try asking:</h3>
             <p>
-                🔹 My work experience  
-                🔹 Product thinking  
-                🔹 UX strategy & research  
-                🔹 AI personalization projects  
-                🔹 Anything about me 💛  
+                • My work experience<br>
+                • Product thinking<br>
+                • UX strategy & research<br>
+                • AI personalization projects<br>
+                • Career, learning, or anything about me 💛  
             </p>
         </div>
     </div>
