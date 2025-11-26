@@ -1,144 +1,110 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Sophie.AI — Personal AI Companion</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Sophie.AI — Personal AI Assistant</title>
 
-    <!-- Google Font -->
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+  <style>
+    body {
+        margin: 0;
+        background: #ffffff;
+        font-family: Inter, sans-serif;
+        color: #000;
+    }
 
-    <style>
-        body {
-            margin: 0;
-            padding: 0;
-            font-family: "Inter", sans-serif;
-            background-color: #F9F9F6; /* 全頁珍珠白 */
-            color: #111; /* 黑字 */
-            height: 100vh;
-            display: flex;
-        }
+    /* Sophie 頭像樣式（header + 訊息 + typing 共用） */
+    .sophie-avatar {
+        width: 32px;
+        height: 32px;
+        border-radius: 50%;
+        object-fit: cover;
+        flex-shrink: 0;
+    }
 
-        /* 左側欄：全白、細邊線、透明感 */
-        .sidebar {
-            width: 32%;
-            min-width: 280px;
-            padding: 40px;
-            background: #FFFFFF; /* 全白 */
-            border-right: 1px solid #EAEAEA; /* 極淺灰邊線 */
-            display: flex;
-            flex-direction: column;
-            justify-content: flex-start;
-            gap: 24px;
-        }
+    /* Header 注入頭像 */
+    flowise-fullchatbot .chat-header-title {
+        display: flex !important;
+        align-items: center !important;
+        gap: 10px;
+        font-weight: 600;
+    }
 
-        .sidebar h1 {
-            font-size: 34px;
-            font-weight: 600;
-            margin: 0;
-            color: #111;
-        }
+    /* AI 回覆訊息加頭像 */
+    .flowise-ai-msg {
+        display: flex !important;
+        align-items: flex-start !important;
+        gap: 10px;
+    }
 
-        .sidebar .tagline {
-            font-size: 15px;
-            line-height: 1.6;
-            color: #222;
-        }
+    .flowise-ai-msg .bubble {
+        background: #f2f2f2 !important;
+        color: #000 !important;
+        border-radius: 12px !important;
+        padding: 12px !important;
+    }
 
-        /* 卡片：玻璃感全白 */
-        .profile-card {
-            background: #FFFFFF; 
-            border-radius: 14px;
-            padding: 20px;
-            border: 1px solid #EEE;
-            box-shadow: 0px 1px 3px rgba(0,0,0,0.03);
-        }
-
-        .profile-card h3 {
-            margin: 0 0 6px 0;
-            font-size: 16px;
-            font-weight: 600;
-            color: #111;
-        }
-
-        .profile-card p {
-            margin: 0;
-            font-size: 14px;
-            color: #333;
-            line-height: 1.6;
-        }
-
-        /* 右側聊天區，同樣全白 */
-        .chat-container {
-            flex-grow: 1;
-            background: #FFFFFF;
-            display: flex;
-            overflow: hidden;
-        }
-
-        flowise-fullchatbot {
-            width: 100%;
-            height: 100%;
-        }
-
-        /* Mobile Responsive */
-        @media (max-width: 900px) {
-            body {
-                flex-direction: column;
-            }
-            .sidebar {
-                width: 100%;
-                border-right: none;
-                border-bottom: 1px solid #EAEAEA;
-            }
-            .chat-container {
-                height: calc(100vh - 360px);
-            }
-        }
-    </style>
+    /* Typing… 加頭像 */
+    .flowise-typing {
+        display: flex !important;
+        align-items: center !important;
+        gap: 10px !important;
+        opacity: 0.8;
+    }
+  </style>
 </head>
 
 <body>
+  <flowise-fullchatbot></flowise-fullchatbot>
 
-    <!-- 左側個人介紹 -->
-    <div class="sidebar">
-        <h1>✨ Sophie.AI</h1>
-        <p class="tagline">
-            Your personal AI extension — blending UX strategy, semantic 
-            retrieval, and vector-powered personalization into one intelligent companion.
-        </p>
+  <script type="module">
+      import Chatbot from "https://cdn.jsdelivr.net/npm/flowise-embed/dist/web.js";
+      Chatbot.initFull({
+          chatflowid: "a24ebb8d-d82a-46df-b0dc-3ba2886ca12a",
+          apiHost: "https://cloud.flowiseai.com",
+      });
+  </script>
 
-        <div class="profile-card">
-            <h3>About Sophie Peng (彭奕瑄)</h3>
-            <p>Email: sophieee0306@gmail.com</p>
-            <p>Product Manager · UX Strategy · Data + AI Personalization</p>
-        </div>
+  <!-- 動態插入頭像功能 -->
+  <script>
+      const avatarUrl = "https://avatars.githubusercontent.com/u/174008152?s=200&v=4";
 
-        <div class="profile-card">
-            <h3>Try asking:</h3>
-            <p>
-                • My work experience<br>
-                • Product thinking<br>
-                • UX strategy & research<br>
-                • AI personalization projects<br>
-                • Career, learning, or anything about me 💛  
-            </p>
-        </div>
-    </div>
+      window.addEventListener("load", () => {
+          setTimeout(() => {
+              /* Header 頭像 */
+              const header = document.querySelector("flowise-fullchatbot .chat-header-title");
+              if (header && !header.querySelector("img.sophie-avatar")) {
+                  const img = document.createElement("img");
+                  img.src = avatarUrl;
+                  img.className = "sophie-avatar";
+                  header.prepend(img);
+              }
 
-    <!-- 右側聊天視窗 -->
-    <div class="chat-container">
-        <flowise-fullchatbot></flowise-fullchatbot>
-    </div>
+              /* 訊息/Typing 監聽 */
+              const observer = new MutationObserver(() => {
+                  /* AI 訊息頭像 */
+                  document.querySelectorAll(".flowise-ai-msg").forEach(msg => {
+                      if (!msg.querySelector("img.sophie-avatar")) {
+                          const img = document.createElement("img");
+                          img.src = avatarUrl;
+                          img.className = "sophie-avatar";
+                          msg.prepend(img);
+                      }
+                  });
 
-    <!-- Flowise Fullpage Embed -->
-    <script type="module">
-        import Chatbot from "https://cdn.jsdelivr.net/npm/flowise-embed/dist/web.js"
-        Chatbot.initFull({
-            chatflowid: "a24ebb8d-d82a-46df-b0dc-3ba2886ca12a",
-            apiHost: "https://cloud.flowiseai.com",
-        })
-    </script>
+                  /* Typing 頭像 */
+                  const typing = document.querySelector(".flowise-typing");
+                  if (typing && !typing.querySelector("img.sophie-avatar")) {
+                      const img = document.createElement("img");
+                      img.src = avatarUrl;
+                      img.className = "sophie-avatar";
+                      typing.prepend(img);
+                  }
+              });
 
+              observer.observe(document.body, { childList: true, subtree: true });
+          }, 1200);
+      });
+  </script>
 </body>
 </html>
