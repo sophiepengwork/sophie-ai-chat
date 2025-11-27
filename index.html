@@ -147,8 +147,8 @@
             <p style="margin-top:14px;">
                 I'm a product manager specializing in UX strategy, semantic retrieval,
                 and vector-powered personalization.<br /><br />
-                By combining user empathy, behavioral insights, and AI-driven methods,
-                I build products that balance usability and intelligence.
+                By combining user empathy, behavioral insights,
+                and AI-driven methods, I build products that balance usability and intelligence.
             </p>
 
             <a class="linkedin-link" href="https://www.linkedin.com/in/yihsuanpeng" target="_blank">
@@ -157,18 +157,17 @@
         </div>
     </div>
 
-    <!-- CHAT PANEL -->
+    <!-- CHAT PANEL (UPDATED) -->
     <div class="main-panel">
-        <flowise-fullchatbot id="chatbot"></flowise-fullchatbot>
+        <flowise-fullchatbot></flowise-fullchatbot>
     </div>
 
     <script type="module">
-        import Chatbot from "https://cdn.jsdelivr.net/npm/flowise-embed/dist/web.js";
-
+        import Chatbot from "https://cdn.jsdelivr.net/npm/flowise-embed/dist/web.js"
         Chatbot.initFull({
             chatflowid: "a24ebb8d-d82a-46df-b0dc-3ba2886ca12a",
             apiHost: "https://cloud.flowiseai.com",
-        });
+        })
     </script>
 
 </body>
