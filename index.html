@@ -1,174 +1,81 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Sophie.AI — Personal AI Assistant</title>
+<script type="module">
+    import Chatbot from "https://cdn.jsdelivr.net/npm/flowise-embed/dist/web.js"
 
-    <!-- Google Fonts -->
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet" />
+    Chatbot.initFull({
+        chatflowid: "a24ebb8d-d82a-46df-b0dc-3ba2886ca12a",
+        apiHost: "https://cloud.flowiseai.com",
 
-    <!-- React & ReactDOM (CDN) -->
-    <script src="https://unpkg.com/react@18/umd/react.development.js" crossorigin></script>
-    <script src="https://unpkg.com/react-dom@18/umd/react-dom.development.js" crossorigin></script>
+        theme: {
+            chatWindow: {
+                /* HEADER */
+                showTitle: true,
+                title: "Sophie.AI",
+                titleAvatarSrc: "https://drive.google.com/uc?id=1BGrJGHcFAPRQ4BnHSX_qm6RF9qn2U4zE",
 
-    <!-- Flowise Embed -->
-    <script type="module" src="https://cdn.jsdelivr.net/npm/flowise-embed/dist/web.js"></script>
+                /* BACKGROUND — 珍珠白 + 毛玻璃 */
+                backgroundColor: "rgba(255,255,255,0.65)",
+                backgroundImage: "",
+                customCSS: `
+                    .flowise-chatbot-container {
+                        backdrop-filter: blur(15px);
+                        -webkit-backdrop-filter: blur(15px);
+                        box-shadow: 0 8px 24px rgba(0,0,0,0.1);
+                        animation: fadeIn 0.6s ease;
+                    }
 
-    <style>
-        body {
-            margin: 0;
-            font-family: "Inter", sans-serif;
-            background: #ffffff;
-            color: #333;
-            display: flex;
-            height: 100vh;
-            overflow: hidden;
-        }
+                    @keyframes fadeIn {
+                        from { opacity: 0; transform: translateY(10px); }
+                        to { opacity: 1; transform: translateY(0); }
+                    }
+                `,
 
-        /* Layout */
-        .sidebar {
-            width: 360px;
-            background: #ffffff;
-            border-right: 1px solid #eee;
-            padding: 32px;
-            display: flex;
-            flex-direction: column;
-            gap: 24px;
-            animation: fadeIn 0.8s ease;
-            overflow-y: auto;
-        }
+                /* WELCOME / ERROR */
+                welcomeMessage: `
+                    Hi there, welcome to Sophie.AI! 👋  
+                    Curious about Sophie’s product work, AI projects, UX strategy, or career journey?  
+                    Just ask — I’m here to help💖
+                `,
+                errorMessage: "Oops! I couldn’t process that request. Try asking again or use a different phrasing.",
 
-        .main-panel {
-            flex: 1;
-            background: #ffffff;
-            position: relative;
-        }
+                /* BOT 氣泡（粉色） */
+                botMessage: {
+                    backgroundColor: "#F5D5D5",
+                    textColor: "#333",
+                    showAvatar: true,
+                    avatarSrc: "https://drive.google.com/uc?id=1BGrJGHcFAPRQ4BnHSX_qm6RF9qn2U4zE"
+                },
 
-        h1 {
-            margin: 0;
-            font-size: 28px;
-            font-weight: 700;
-        }
+                /* USER 氣泡（荷葉綠） */
+                userMessage: {
+                    backgroundColor: "#CBD7C2",
+                    textColor: "#333",
+                    showAvatar: false
+                },
 
-        .intro-text {
-            font-size: 15px;
-            line-height: 1.6;
-            opacity: 0.85;
-        }
+                /* INPUT BAR */
+                textInput: {
+                    placeholder: "Type your question...",
+                    backgroundColor: "rgba(255,255,255,0.8)",
+                    textColor: "#333",
+                    sendButtonColor: "#CBD7C2",
+                    sendButtonTextColor: "#333",
+                    autofocus: true
+                },
 
-        .faq-button {
-            font-weight: 700;
-            color: #b7c277;
-            cursor: pointer;
-        }
+                /* TYPING DOTS 開啟 */
+                typingIndicator: {
+                    show: true,
+                    color: "#999"
+                },
 
-        .about-box {
-            border-radius: 12px;
-            border: 1px solid #efefef;
-            padding: 20px;
-            background: #ffffff;
-            animation: fadeIn 0.8s ease;
-        }
-
-        .profile-row {
-            display: flex;
-            align-items: center;
-            gap: 14px;
-        }
-
-        .profile-pic {
-            width: 64px;
-            height: 64px;
-            border-radius: 50%;
-            object-fit: cover;
-        }
-
-        .linkedin-link {
-            color: #b7c277;
-            font-weight: 700;
-            text-decoration: none;
-        }
-        .linkedin-link:hover {
-            color: #9daa62;
-        }
-
-        /* Animations */
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(10px); }
-            to   { opacity: 1; transform: translateY(0); }
-        }
-
-        /* Mobile Responsive */
-        @media (max-width: 900px) {
-            body {
-                flex-direction: column;
-            }
-            .sidebar {
-                width: 100%;
-                height: auto;
-                border-right: none;
-                border-bottom: 1px solid #eee;
-            }
-            .main-panel {
-                height: calc(100vh - 380px);
+                /* FOOTER */
+                footer: {
+                    text: "Designed by Sophie Peng · Powered by",
+                    textColor: "#555",
+                    company: "Flowise",
+                    companyLink: "https://flowiseai.com"
+                }
             }
         }
-    </style>
-</head>
-
-<body>
-
-    <!-- LEFT SIDEBAR -->
-    <div class="sidebar">
-        <h1>🤖 Sophie.AI</h1>
-
-        <p class="intro-text">
-            Discover Sophie.AI, your digital companion for exploring my professional journey.
-            This AI assistant provides insights into my background, projects, and product work.
-            Whether you're a recruiter, hiring manager, or simply curious, feel free to explore.
-        </p>
-
-        <div class="faq-button">👉 Frequently Asked Questions</div>
-
-        <div class="about-box">
-            <div class="profile-row">
-                <img
-                    src="https://drive.google.com/uc?id=1BGrJGHcFAPRQ4BnHSX_qm6RF9qn2U4zE"
-                    class="profile-pic"
-                    alt="Sophie Peng"
-                />
-                <div>
-                    <strong>Sophie Peng</strong><br />
-                    <a href="mailto:sophieee0306@gmail.com">sophieee0306@gmail.com</a>
-                </div>
-            </div>
-
-            <p style="margin-top:14px;">
-                I'm a product manager specializing in UX strategy, semantic retrieval,
-                and vector-powered personalization.<br /><br />
-                By combining user empathy, behavioral insights,
-                and AI-driven methods, I build products that balance usability and intelligence.
-            </p>
-
-            <a class="linkedin-link" href="https://www.linkedin.com/in/yihsuanpeng" target="_blank">
-                Check my LinkedIn
-            </a>
-        </div>
-    </div>
-
-    <!-- CHAT PANEL (UPDATED) -->
-    <div class="main-panel">
-        <flowise-fullchatbot></flowise-fullchatbot>
-    </div>
-
-    <script type="module">
-        import Chatbot from "https://cdn.jsdelivr.net/npm/flowise-embed/dist/web.js"
-        Chatbot.initFull({
-            chatflowid: "a24ebb8d-d82a-46df-b0dc-3ba2886ca12a",
-            apiHost: "https://cloud.flowiseai.com",
-        })
-    </script>
-
-</body>
-</html>
+    })
+</script>
