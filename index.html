@@ -1,81 +1,341 @@
-<script type="module">
-    import Chatbot from "https://cdn.jsdelivr.net/npm/flowise-embed/dist/web.js"
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Sophie.AI — Personal AI Assistant</title>
 
-    Chatbot.initFull({
-        chatflowid: "a24ebb8d-d82a-46df-b0dc-3ba2886ca12a",
-        apiHost: "https://cloud.flowiseai.com",
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet" />
 
-        theme: {
-            chatWindow: {
-                /* HEADER */
-                showTitle: true,
-                title: "Sophie.AI",
-                titleAvatarSrc: "https://drive.google.com/uc?id=1BGrJGHcFAPRQ4BnHSX_qm6RF9qn2U4zE",
+    <!-- Flowise Embed -->
+    <script type="module" src="https://cdn.jsdelivr.net/npm/flowise-embed/dist/web.js"></script>
 
-                /* BACKGROUND — 珍珠白 + 毛玻璃 */
-                backgroundColor: "rgba(255,255,255,0.65)",
-                backgroundImage: "",
-                customCSS: `
-                    .flowise-chatbot-container {
-                        backdrop-filter: blur(15px);
-                        -webkit-backdrop-filter: blur(15px);
-                        box-shadow: 0 8px 24px rgba(0,0,0,0.1);
-                        animation: fadeIn 0.6s ease;
-                    }
+    <style>
+        body {
+            margin: 0;
+            font-family: "Inter", sans-serif;
+            background: #ffffff;
+            color: #333;
+            display: flex;
+            height: 100vh;
+            overflow: hidden;
+        }
 
-                    @keyframes fadeIn {
-                        from { opacity: 0; transform: translateY(10px); }
-                        to { opacity: 1; transform: translateY(0); }
-                    }
-                `,
+        /* HAMBURGER */
+        .hamburger {
+            display: none;
+            position: fixed;
+            top: 18px;
+            left: 18px;
+            font-size: 26px;
+            background: white;
+            padding: 6px 12px;
+            border-radius: 10px;
+            border: 1px solid #eee;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+            z-index: 2000;
+            cursor: pointer;
+        }
 
-                /* WELCOME / ERROR */
-                welcomeMessage: `
-                    Hi there, welcome to Sophie.AI! 👋  
-                    Curious about Sophie’s product work, AI projects, UX strategy, or career journey?  
-                    Just ask — I’m here to help💖
-                `,
-                errorMessage: "Oops! I couldn’t process that request. Try asking again or use a different phrasing.",
+        /* LEFT SIDEBAR */
+        .sidebar {
+            width: 360px;
+            background: rgba(255,255,255,0.75);
+            backdrop-filter: blur(20px);
+            border-right: 1px solid #eee;
+            padding: 32px;
+            display: flex;
+            flex-direction: column;
+            gap: 24px;
+            overflow-y: auto;
+            transition: 0.35s ease;
+            z-index: 1500;
+        }
 
-                /* BOT 氣泡（粉色） */
-                botMessage: {
-                    backgroundColor: "#F5D5D5",
-                    textColor: "#333",
-                    showAvatar: true,
-                    avatarSrc: "https://drive.google.com/uc?id=1BGrJGHcFAPRQ4BnHSX_qm6RF9qn2U4zE"
-                },
+        .sidebar.open {
+            transform: translateX(0);
+        }
 
-                /* USER 氣泡（荷葉綠） */
-                userMessage: {
-                    backgroundColor: "#CBD7C2",
-                    textColor: "#333",
-                    showAvatar: false
-                },
+        .main-panel {
+            flex: 1;
+            background: #ffffff;
+            position: relative;
+        }
 
-                /* INPUT BAR */
-                textInput: {
-                    placeholder: "Type your question...",
-                    backgroundColor: "rgba(255,255,255,0.8)",
-                    textColor: "#333",
-                    sendButtonColor: "#CBD7C2",
-                    sendButtonTextColor: "#333",
-                    autofocus: true
-                },
+        h1 {
+            margin: 0;
+            font-size: 28px;
+            font-weight: 700;
+        }
 
-                /* TYPING DOTS 開啟 */
-                typingIndicator: {
-                    show: true,
-                    color: "#999"
-                },
+        .intro-text {
+            font-size: 15px;
+            line-height: 1.6;
+            opacity: 0.85;
+        }
 
-                /* FOOTER */
-                footer: {
-                    text: "Designed by Sophie Peng · Powered by",
-                    textColor: "#555",
-                    company: "Flowise",
-                    companyLink: "https://flowiseai.com"
-                }
+        .faq-button {
+            font-weight: 700;
+            color: #b7c277;
+            cursor: pointer;
+        }
+
+        .about-box {
+            border-radius: 12px;
+            border: 1px solid #efefef;
+            padding: 20px;
+            background: rgba(255,255,255,0.8);
+            backdrop-filter: blur(10px);
+        }
+
+        .profile-row {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+        }
+
+        .profile-pic {
+            width: 64px;
+            height: 64px;
+            border-radius: 50%;
+            object-fit: cover;
+        }
+
+        .linkedin-link {
+            color: #b7c277;
+            font-weight: 700;
+            text-decoration: none;
+        }
+        .linkedin-link:hover {
+            color: #9daa62;
+        }
+
+        /* Fade animation */
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to   { opacity: 1; transform: translateY(0); }
+        }
+
+        /* FAQ MODAL */
+        .faq-modal {
+            display: none;
+            position: fixed;
+            inset: 0;
+            background: rgba(0,0,0,0.45);
+            backdrop-filter: blur(6px);
+            justify-content: center;
+            align-items: center;
+            z-index: 3000;
+        }
+
+        .faq-modal.show {
+            display: flex;
+        }
+
+        .faq-content {
+            background: rgba(255,255,255,0.75);
+            backdrop-filter: blur(20px);
+            padding: 32px;
+            border-radius: 20px;
+            width: 90%;
+            max-width: 420px;
+            box-shadow: 0 12px 40px rgba(0,0,0,0.12);
+            animation: fadeIn 0.35s ease;
+        }
+
+        .faq-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .faq-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin: 14px 0;
+        }
+
+        .faq-item button {
+            padding: 6px 14px;
+            border-radius: 10px;
+            background: #6678FF;
+            border: none;
+            color: white;
+            font-size: 14px;
+            cursor: pointer;
+            font-weight: 600;
+        }
+
+        /* MOBILE */
+        @media (max-width: 900px) {
+            body {
+                flex-direction: column;
+            }
+
+            .sidebar {
+                position: fixed;
+                transform: translateX(-100%);
+                height: 100%;
+                width: 75%;
+                top: 0;
+                left: 0;
+            }
+
+            .hamburger {
+                display: block;
             }
         }
-    })
-</script>
+    </style>
+</head>
+
+<body>
+
+    <button class="hamburger" onclick="toggleSidebar()">☰</button>
+
+    <!-- LEFT SIDEBAR -->
+    <div class="sidebar">
+        <h1>🤖 Sophie.AI</h1>
+
+        <p class="intro-text">
+            Discover Sophie.AI, your digital companion for exploring my professional journey.
+            This AI assistant provides insights into my background, projects, and product work.
+        </p>
+
+        <div class="faq-button" onclick="toggleFAQ()">👉 Frequently Asked Questions</div>
+
+        <div class="about-box">
+            <div class="profile-row">
+                <img
+                    src="https://drive.google.com/uc?id=1BGrJGHcFAPRQ4BnHSX_qm6RF9qn2U4zE"
+                    class="profile-pic"
+                />
+                <div>
+                    <strong>Sophie Peng</strong><br />
+                    <a href="mailto:sophieee0306@gmail.com">sophieee0306@gmail.com</a>
+                </div>
+            </div>
+
+            <p style="margin-top:14px;">
+                I'm a product manager specializing in UX strategy, semantic retrieval,
+                and vector-powered personalization.
+            </p>
+
+            <a class="linkedin-link" href="https://www.linkedin.com/in/yihsuanpeng" target="_blank">
+                Check my LinkedIn
+            </a>
+        </div>
+    </div>
+
+    <!-- CHAT PANEL -->
+    <div class="main-panel">
+        <flowise-fullchatbot></flowise-fullchatbot>
+    </div>
+
+    <!-- FAQ MODAL -->
+    <div id="faqModal" class="faq-modal">
+        <div class="faq-content">
+            <div class="faq-header">
+                <h2>Frequently Asked Questions</h2>
+                <span class="faq-close" onclick="toggleFAQ()" style="cursor:pointer;">✕</span>
+            </div>
+
+            <div class="faq-item"><span>Tell me about yourself</span><button onclick="copyFAQ('Tell me about yourself')">Copy</button></div>
+            <div class="faq-item"><span>What are you currently working on?</span><button onclick="copyFAQ('What are you currently working on?')">Copy</button></div>
+            <div class="faq-item"><span>Have you done AI product implementation before?</span><button onclick="copyFAQ('Have you done AI product implementation before?')">Copy</button></div>
+            <div class="faq-item"><span>Have you ever built a 0-to-1 product?</span><button onclick="copyFAQ('Have you ever built a 0-to-1 product?')">Copy</button></div>
+            <div class="faq-item"><span>Have you used A/B testing in your work?</span><button onclick="copyFAQ('Have you used A/B testing in your work?')">Copy</button></div>
+            <div class="faq-item"><span>Give me a data-driven product decision you made</span><button onclick="copyFAQ('Give me a data-driven product decision you made')">Copy</button></div>
+            <div class="faq-item"><span>How do you persuade stakeholders?</span><button onclick="copyFAQ('How do you persuade stakeholders?')">Copy</button></div>
+            <div class="faq-item"><span>What do teammates say about working with you?</span><button onclick="copyFAQ('What do teammates say about working with you?')">Copy</button></div>
+            <div class="faq-item"><span>What are your strengths as a product manager?</span><button onclick="copyFAQ('What are your strengths as a product manager?')">Copy</button></div>
+        </div>
+    </div>
+
+    <!-- SCRIPTS -->
+    <script>
+        function toggleSidebar() {
+            document.querySelector('.sidebar').classList.toggle('open');
+        }
+
+        function toggleFAQ() {
+            document.getElementById("faqModal").classList.toggle("show");
+        }
+
+        function copyFAQ(text) {
+            navigator.clipboard.writeText(text);
+            alert("Copied!");
+        }
+    </script>
+
+    <!-- FLOWISE CHATBOT CONFIG -->
+    <script type="module">
+        import Chatbot from "https://cdn.jsdelivr.net/npm/flowise-embed/dist/web.js"
+
+        Chatbot.initFull({
+            chatflowid: "a24ebb8d-d82a-46df-b0dc-3ba2886ca12a",
+            apiHost: "https://cloud.flowiseai.com",
+
+            theme: {
+                chatWindow: {
+                    showTitle: true,
+                    title: "Sophie.AI",
+                    titleAvatarSrc: "https://drive.google.com/uc?id=1BGrJGHcFAPRQ4BnHSX_qm6RF9qn2U4zE",
+
+                    backgroundColor: "rgba(255,255,255,0.65)",
+                    customCSS: `
+                        .flowise-chatbot-container {
+                            backdrop-filter: blur(15px);
+                            box-shadow: 0 8px 24px rgba(0,0,0,0.1);
+                            animation: fadeIn 0.6s ease;
+                        }
+                    `,
+
+                    welcomeMessage: `
+                        Hi there, welcome to Sophie.AI! 👋  
+                        Curious about Sophie’s product work, AI projects, UX strategy, or career journey?  
+                        Just ask — I’m here to help💖
+                    `,
+                    errorMessage: "Oops! I couldn’t process that request. Try asking again or use a different phrasing.",
+
+                    botMessage: {
+                        backgroundColor: "#F5D5D5",
+                        textColor: "#333",
+                        showAvatar: true,
+                        avatarSrc: "https://drive.google.com/uc?id=1BGrJGHcFAPRQ4BnHSX_qm6RF9qn2U4zE"
+                    },
+
+                    userMessage: {
+                        backgroundColor: "#CBD7C2",
+                        textColor: "#333",
+                        showAvatar: false
+                    },
+
+                    textInput: {
+                        placeholder: "Type your question...",
+                        backgroundColor: "rgba(255,255,255,0.8)",
+                        textColor: "#333",
+                        sendButtonColor: "#CBD7C2",
+                        sendButtonTextColor: "#333"
+                    },
+
+                    typingIndicator: {
+                        show: true,
+                        color: "#999"
+                    },
+
+                    footer: {
+                        text: "Designed by Sophie Peng · Powered by",
+                        textColor: "#555",
+                        company: "Flowise",
+                        companyLink: "https://flowiseai.com"
+                    }
+                }
+            }
+        })
+    </script>
+
+</body>
+</html>
