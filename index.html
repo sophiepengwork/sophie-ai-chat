@@ -95,9 +95,10 @@
             flex: 1;
             background: #ffffff;
             position: relative;
+            display: flex;
+            flex-direction: column;
         }
 
-        /* Mobile */
         @media (max-width: 900px) {
             body {
                 flex-direction: column;
@@ -123,9 +124,12 @@
         <h1>🤖 Sophie.AI</h1>
 
         <p class="intro-text">
-            Discover Sophie.AI, your digital companion for exploring my professional journey.
+            Discover Sophie.AI, your digital companion for exploring my professional journey.  
             This RAG-powered AI assistant provides seamless insights into my background, projects,  
             and my product experiences.
+
+            <br><br>
+
             Whether you're a recruiter, hiring manager, collaborator, or simply curious, feel free to
             explore my work, thinking process, and impact through Sophie.AI. ✨
         </p>
@@ -149,7 +153,7 @@
 
             <p>
                 I'm a product manager specializing in UX strategy, semantic retrieval, and
-                vector-powered personalization.
+                vector-powered personalization.<br>
                 By combining user empathy, behavioral insights, and AI-driven methods, I build
                 products that balance usability and intelligence.
             </p>
@@ -205,6 +209,14 @@
                     @keyframes fadeIn {
                         from { opacity: 0; transform: translateY(6px); }
                         to { opacity: 1; transform: translateY(0); }
+                    }
+
+                    /* fix input at bottom */
+                    .flowise-chat-message-input {
+                        position: sticky !important;
+                        bottom: 0 !important;
+                        background: #fff;
+                        z-index: 10;
                     }
                 `,
 
